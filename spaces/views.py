@@ -53,6 +53,23 @@ class RoomDetial(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsSpaceOwnerOrReadOnly)
 
 
+class RestAuth(generics.GenericAPIView):
+    name = 'rest-auth'
+
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'User-detial': reverse('rest_user_details', request=request),
+            'log-in': reverse('rest_login', request=request),
+            'log-out': reverse('rest_logout', request=request),
+            'change-password': reverse('rest_password_change', request=request),
+            'reset-password': reverse('rest_password_reset', request=request),
+            'confirm-reset-password': reverse('rest_password_reset_confirm', request=request),
+
+
+
+        })
+
+
 class ApiRoot(generics.GenericAPIView):
     name = 'api-root'
 
@@ -61,4 +78,8 @@ class ApiRoot(generics.GenericAPIView):
             'Spaces': reverse(SpaceList.name, request=request),
             'Events': reverse(EventList.name, request=request),
             'Rooms': reverse(RoomList.name, request=request),
+            'sign-up': reverse('rest_register', request=request),
+            'Auth-System': reverse('auth-system', request=request),
+
+
         })

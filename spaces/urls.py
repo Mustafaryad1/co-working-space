@@ -22,5 +22,7 @@ urlpatterns = [
          name=views.RoomDetial.name),
     path('',
          views.ApiRoot.as_view(),
-         name=views.ApiRoot.name)
+         name=views.ApiRoot.name),
+    path('auth-system',
+         views.RestAuth.as_view(),name='auth-system')
 ]
