@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Space, Event, Room
+from .models import Space, Event, Room, UserRate
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -25,4 +25,26 @@ class SpaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Space
-        fields = ('name','owner','pk', 'location', 'contacts', 'events', 'rooms')
+        fields = ('name', 'owner', 'pk', 'address', 'contacts', 'events', 'rooms')
+
+
+class SpaceLocationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Space
+        fields = ('pk', 'name', 'long', 'lat')
+
+
+class UserRateSerializer(serializers.ModelSerializer):
+    space = serializers.ReadOnlyField(source='space.name')
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = UserRate
+        fields = ('pk', 'space', 'user', 'rate', 'feedback', 'created')
+
+
+class RateSpaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserRate
+        fields = ('pk', 'space', 'user', 'rate', 'feedback')

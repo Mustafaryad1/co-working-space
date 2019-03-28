@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # third party
+    'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
@@ -155,13 +156,19 @@ MEDIA_URL = '/media/'
 # setting The Pagination
 
 REST_FRAMEWORK = {
-
+    # setting pagination
     'DEFAULT_PAGINATION_CLASS': 'spaces.pagination.PaginationWithMaxlimit',
     'PAGE_SIZE': 5,
     # settings authentication system
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    )
+    ),
+    # setting filters
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+        ),
 
 }

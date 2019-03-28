@@ -5,6 +5,9 @@ urlpatterns = [
     path('spaces/',
          views.SpaceList.as_view(),
          name=views.SpaceList.name),
+    path('spaces/locations/',
+         views.SpaceLocationList.as_view(),
+         name=views.SpaceLocationList.name),
     path('spaces/<int:pk>/',
          views.SpaceDetial.as_view(),
          name=views.SpaceDetial.name),
@@ -20,9 +23,12 @@ urlpatterns = [
     path('rooms/<int:pk>/',
          views.RoomDetial.as_view(),
          name=views.RoomDetial.name),
+    path('rates/',
+         views.UserRateList.as_view(),
+         name=views.UserRateList.name),
     path('',
          views.ApiRoot.as_view(),
          name=views.ApiRoot.name),
     path('auth-system',
-         views.RestAuth.as_view(),name='auth-system')
+         views.RestAuth.as_view(), name='auth-system')
 ]

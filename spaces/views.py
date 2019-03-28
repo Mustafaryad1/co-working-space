@@ -2,10 +2,13 @@ from rest_framework import generics
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework import permissions
+from rest_framework.decorators import api_view
 
 from .permissions import IsOwnerOrReadOnly, IsSpaceOwnerOrReadOnly
-from .models import Space, Event, Room
-from .serializers import SpaceSerializer, RoomSerializer, EventSerializer
+from .models import Space, Event, Room, UserRate
+from .serializers import (SpaceSerializer, RoomSerializer,
+                          EventSerializer, SpaceLocationSerializer,
+                          UserRateSerializer, RateSpaceSerializer)
 from. pagination import PaginationWithMaxlimit
 
 
@@ -13,6 +16,17 @@ class SpaceList(generics.ListAPIView):
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
     name = 'space-list'
+    pagination_class = PaginationWithMaxlimit
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    search_fields = ('name', 'address')
+    filterset_fields = ('name', 'address')
+    ordering_fields = '__all__'
+
+
+class SpaceLocationList(generics.ListAPIView):
+    queryset = Space.objects.all()
+    serializer_class = SpaceLocationSerializer
+    name = 'spacelocation-list'
     pagination_class = PaginationWithMaxlimit
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
@@ -53,6 +67,23 @@ class RoomDetial(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsSpaceOwnerOrReadOnly)
 
 
+class UserRateList(generics.ListAPIView):
+    queryset = UserRate.objects.all()
+    serializer_class = UserRateSerializer
+    name = 'user-rate-list'
+    pagination_class = PaginationWithMaxlimit
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+# @api_view(['POST'])
+# def user_rate(request):
+#     if request.methods == "POST":
+#         serializer = RateSpaceSerializer(data = request.data)
+#         if serializer.is_valid():
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class RestAuth(generics.GenericAPIView):
     name = 'rest-auth'
 
@@ -78,6 +109,8 @@ class ApiRoot(generics.GenericAPIView):
             'Spaces': reverse(SpaceList.name, request=request),
             'Events': reverse(EventList.name, request=request),
             'Rooms': reverse(RoomList.name, request=request),
+            'rates': reverse(UserRateList.name, request=request),
+            'Locations': reverse(SpaceLocationList.name, request=request),
             'sign-up': reverse('rest_register', request=request),
             'Auth-System': reverse('auth-system', request=request),
 
