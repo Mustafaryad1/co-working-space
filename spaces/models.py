@@ -47,7 +47,11 @@ class UserRate(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     feedback = models.CharField(max_length=2000)
     created = models.DateTimeField(auto_now=True)
-    rate = models.DecimalField(max_digits=2, decimal_places=1)
+    location = models.DecimalField(max_digits=2, decimal_places=1, default=0)
+    internet = models.DecimalField(max_digits=2, decimal_places=1, default=0)
+    clean = models.DecimalField(max_digits=2, decimal_places=1, default=0)
+    calm = models.DecimalField(max_digits=2, decimal_places=1, default=0)
+    staff = models.DecimalField(max_digits=2, decimal_places=1, default=0)
 
     class Meta:
         unique_together = (("user", "space"),)
