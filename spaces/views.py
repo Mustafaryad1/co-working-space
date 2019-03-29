@@ -1,8 +1,11 @@
+from django.http import Http404
+
 from rest_framework import generics
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework import permissions
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
+from rest_framework import status
 
 from .permissions import IsOwnerOrReadOnly, IsSpaceOwnerOrReadOnly
 from .models import Space, Event, Room, UserRate
@@ -75,13 +78,22 @@ class UserRateList(generics.ListAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
-# @api_view(['POST'])
-# def user_rate(request):
-#     if request.methods == "POST":
-#         serializer = RateSpaceSerializer(data = request.data)
-#         if serializer.is_valid():
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserRate(APIView):
+    def get_object(self, pk):
+        try:
+            return Space.objects.get(pk=pk)
+        except Space.DoesNotExist:
+            raise Http404
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, pk):
+        space = self.get_object(pk)
+        serializer = RateSpaceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=self.request.user, space=space)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RestAuth(generics.GenericAPIView):

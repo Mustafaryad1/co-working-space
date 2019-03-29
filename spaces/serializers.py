@@ -45,6 +45,8 @@ class UserRateSerializer(serializers.ModelSerializer):
 
 
 class RateSpaceSerializer(serializers.ModelSerializer):
+    space = serializers.ReadOnlyField()
+    user = serializers.ReadOnlyField()
     class Meta:
         model = UserRate
-        fields = ('pk', 'space', 'user', 'rate', 'feedback')
+        fields = ('pk', 'rate','feedback','space', 'user' )
