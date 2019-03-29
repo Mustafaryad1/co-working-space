@@ -41,7 +41,7 @@ class UserRateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserRate
-        fields = ('pk', 'space', 'user', 'rate', 'feedback', 'created')
+        fields = ('__all__')
 
 
 class RateSpaceSerializer(serializers.ModelSerializer):
@@ -49,4 +49,4 @@ class RateSpaceSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField()
     class Meta:
         model = UserRate
-        fields = ('pk', 'rate','feedback','space', 'user' )
+        fields = ('__all__' )
