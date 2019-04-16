@@ -1,3 +1,5 @@
-from django.test import TestCase
+from django.test import TestCase, APIRequestFactory
 
-# Create your tests here.
+
+factory = APIRequestFactory()
+request = factory().get('')
