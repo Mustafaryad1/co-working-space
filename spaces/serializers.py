@@ -25,7 +25,7 @@ class SpaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Space
-        fields = ('name', 'owner', 'pk', 'address', 'contacts', 'events', 'rooms')
+        exclude = ('long', 'lat')
 
 
 class SpaceLocationSerializer(serializers.ModelSerializer):
