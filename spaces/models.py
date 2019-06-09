@@ -11,6 +11,11 @@ class Space(models.Model):
     long = models.FloatField()
     lat = models.FloatField()
     # description = models.CharField(max_length=2000)
+    air_conditioner = models.BooleanField(default=False)
+    open_place = models.BooleanField(default=False)
+    drinks_foods = models.BooleanField(default=False)
+    laptop_tablet = models.BooleanField(default=False)
+    parking = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
