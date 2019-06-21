@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Space, Event, Room, UserRate
+from .models import Space, Event, Room, UserRate, SpaceImages
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -50,4 +50,12 @@ class RateSpaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserRate
+        fields = ('__all__')
+
+
+class SpaceImagesSerializer(serializers.ModelSerializer):
+    space = serializers.ReadOnlyField()
+
+    class Meta:
+        model = SpaceImages
         fields = ('__all__')
