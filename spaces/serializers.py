@@ -19,6 +19,7 @@ class RoomSerializer(serializers.ModelSerializer):
 
 
 class SpaceSerializer(serializers.ModelSerializer):
+
     events = EventSerializer(many=True, read_only=True)
     rooms = RoomSerializer(many=True, read_only=True)
     owner = serializers.ReadOnlyField(source='owner.username')
@@ -54,8 +55,10 @@ class RateSpaceSerializer(serializers.ModelSerializer):
 
 
 class SpaceImagesSerializer(serializers.ModelSerializer):
-    space = serializers.ReadOnlyField()
+    image = serializers.ImageField(
+        max_length=None, use_url=True)
+    space = serializers.ReadOnlyField(source='space.name')
 
     class Meta:
         model = SpaceImages
-        fields = ('__all__')
+        fields = ('space', 'image')

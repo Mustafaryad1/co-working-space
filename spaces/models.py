@@ -30,7 +30,7 @@ class Event(TimeStampedModel):
 
 class Room(models.Model):
     number = models.IntegerField()
-    photo = models.FileField(upload_to='room/photos/')  # delete this
+    photo = models.ImageField(upload_to='room/photos/')  # delete this
     space = models.ForeignKey(Space, related_name='rooms', on_delete=models.CASCADE)
 
 

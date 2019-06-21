@@ -8,10 +8,10 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 from .permissions import IsOwnerOrReadOnly, IsSpaceOwnerOrReadOnly
-from .models import Space, Event, Room, UserRate
+from .models import Space, Event, Room, UserRate, SpaceImages
 from .serializers import (SpaceSerializer, RoomSerializer,
                           EventSerializer, SpaceLocationSerializer,
-                          UserRateSerializer, RateSpaceSerializer)
+                          UserRateSerializer, RateSpaceSerializer, SpaceImagesSerializer)
 from. pagination import PaginationWithMaxlimit
 
 
@@ -63,6 +63,13 @@ class RoomList(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, )
 
 
+class ImageList(generics.ListAPIView):
+    queryset = SpaceImages.objects.all()
+    serializer_class = SpaceImagesSerializer
+    name = 'images-list'
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+
+
 class RoomDetial(generics.RetrieveUpdateDestroyAPIView):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
@@ -80,6 +87,7 @@ class UserRateList(generics.ListAPIView):
 
 class UserRate(APIView):
     def get_object(self, pk):
+
         try:
             return Space.objects.get(pk=pk)
         except Space.DoesNotExist:
